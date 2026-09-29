@@ -17,9 +17,10 @@
   - Why: no validation on page/limit - negative or zero values produce a negative offset, which Array.slice() interprets from the end, silently returning empty or wrong results instead of an error.
   - How I discovered it: GET /tasks?page=-1&limit=2 returned an empty array instead of an error, even though 4 tasks exist.
 
-- [ ] taskService.js: completeTask overwrites priority to "medium".
+- [x] taskService.js: completeTask overwrites priority to "medium".
   - Why: the completeTask function hardcodes `priority: 'medium'` when marking a task done, even if the task had a different priority (e.g. "high").
   - How I discovered it: created a task with priority "high", called PATCH /tasks/:id/complete, and the response showed priority changed to "medium" instead of staying "high".
+  - **Fixed:** removed the hardcoded `priority: 'medium'` line so priority stays unchanged on completion.
 
 - [ ] taskService.js / validators.js: PUT allows overwriting protected fields like id.
   - Why: validateUpdateTask doesn't restrict which fields are allowed, and taskService.update() spreads req.body directly onto the task (`{ ...tasks[index], ...fields }`), so a client can change a task's id, createdAt, or completedAt.
