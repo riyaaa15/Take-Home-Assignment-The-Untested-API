@@ -6,9 +6,11 @@ const getAll = () => [...tasks];
 
 const findById = (id) => tasks.find((t) => t.id === id);
 
+// Exact match instead of substring match (previously used .includes())
 const getByStatus = (status) => tasks.filter((t) => t.status === status);
 
 const getPaginated = (page, limit) => {
+  // page=1 should return the first `limit` items, so offset starts at (page - 1)
   const offset = (page - 1) * limit;
   return tasks.slice(offset, offset + limit);
 };
@@ -68,6 +70,7 @@ const completeTask = (id) => {
     ...task,
     status: 'done',
     completedAt: new Date().toISOString(),
+    // Note: priority is intentionally left unchanged here (previously hardcoded to 'medium', which was a bug)
   };
 
   const index = tasks.findIndex((t) => t.id === id);
