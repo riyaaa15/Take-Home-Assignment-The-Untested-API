@@ -5,9 +5,10 @@
   - Why: express.json() throws a SyntaxError for invalid JSON, but the error handler always sends 500 and ignores the error's own status.
   - Error name (from terminal): SyntaxError: Expected property name or '}' in JSON at position 1
 
-- [ ] taskService.js: getByStatus uses substring match instead of exact match.
+- [x] taskService.js: getByStatus uses substring match instead of exact match.
   - Why: uses `t.status.includes(status)` instead of `t.status === status`.
   - How I discovered it: GET /tasks?status=do returned tasks with status "todo", even though "do" isn't a valid status.
+  - **Fixed:** changed `.includes(status)` to `=== status` for an exact match.
 
 - [ ] taskService.js: getPaginated has an off-by-one error.
   - Why: uses `offset = page * limit` instead of `offset = (page - 1) * limit`, so page=1 skips the first `limit` items instead of showing them.

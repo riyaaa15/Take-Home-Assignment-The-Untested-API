@@ -7,12 +7,12 @@
 - **Why:** express.json() throws a SyntaxError with its own 400 status for invalid JSON, but the error handler in app.js ignores that status and always responds with 500.
 - **Suggested fix:** In the error handler, use `res.status(err.status || 500)` instead of hardcoding 500.
 
-## Bug 2: Status filter uses substring match instead of exact match
+## Bug 2: Status filter uses substring match instead of exact match — FIXED
 - **Expected:** GET /tasks?status=do should return no tasks (since "do" is not a valid status)
 - **Actual:** It returns tasks with status "todo"
 - **How discovered:** Sent GET /tasks?status=do and got back tasks with status "todo".
 - **Why:** getByStatus uses `t.status.includes(status)` instead of `t.status === status`.
-- **Suggested fix:** Change `.includes(status)` to `=== status`.
+- **Fix applied:** Changed `.includes(status)` to `=== status` for an exact match.
 
 ## Bug 3: Pagination has an off-by-one error
 - **Expected:** page=1 should return the first `limit` tasks
