@@ -14,12 +14,12 @@
 - **Why:** getByStatus uses `t.status.includes(status)` instead of `t.status === status`.
 - **Fix applied:** Changed `.includes(status)` to `=== status` for an exact match.
 
-## Bug 3: Pagination has an off-by-one error
+## Bug 3: Pagination has an off-by-one error — FIXED
 - **Expected:** page=1 should return the first `limit` tasks
 - **Actual:** page=1 skips the first `limit` tasks
 - **How discovered:** Created 4 tasks, sent GET /tasks?page=1&limit=2, got tasks 3 and 4 instead of 1 and 2.
 - **Why:** getPaginated calculates `offset = page * limit` instead of `offset = (page - 1) * limit`.
-- **Suggested fix:** Change the offset formula to `(page - 1) * limit`.
+- **Fix applied:** Changed the offset formula from `page * limit` to `(page - 1) * limit`.
 
 ## Bug 4: Pagination silently returns wrong results for invalid page/limit
 - **Expected:** A negative or zero page number should return an error (400)
