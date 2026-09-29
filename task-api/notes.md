@@ -26,12 +26,17 @@
   - Why: validateUpdateTask doesn't restrict which fields are allowed, and taskService.update() spreads req.body directly onto the task (`{ ...tasks[index], ...fields }`), so a client can change a task's id, createdAt, or completedAt.
   - How I discovered it: sent PUT /tasks/:id with { "id": "hacked-id" } in the body, and the task's id changed to "hacked-id" in the response.
 
-## What surprised me
--
 
 ## Design decisions
 - assign endpoint: chose to return 400 if assignee is empty/missing, since assigning to nobody doesn't make sense.
 - assign endpoint: allowed reassigning an already-assigned task (new assignee simply overwrites the old one) rather than blocking it, since the assignment brief didn't require blocking reassignment.
 
+## What surprised me
+- The README and ASSIGNMENT.md use different status values (pending/in-progress vs todo/in_progress), which was confusing at first.
+
 ## If I had more time
--
+- I'd fix the remaining bugs (substring match in status filter, pagination issues, and adding a field whitelist to PUT) since digging into them taught me a lot and I'd like to apply that.
+
+## Questions I'd ask before shipping to production
+- Is there any authentication/authorization planned for production?
+- Is data persisted in a database, or does it stay in-memory (and reset on every restart)?
