@@ -10,9 +10,10 @@
   - How I discovered it: GET /tasks?status=do returned tasks with status "todo", even though "do" isn't a valid status.
   - **Fixed:** changed `.includes(status)` to `=== status` for an exact match.
 
-- [ ] taskService.js: getPaginated has an off-by-one error.
+- [x] taskService.js: getPaginated has an off-by-one error.
   - Why: uses `offset = page * limit` instead of `offset = (page - 1) * limit`, so page=1 skips the first `limit` items instead of showing them.
   - How I discovered it: GET /tasks?page=1&limit=2 returned Task 3 and Task 4, not Test task and Task 2.
+  - **Fixed:** changed the offset formula to `(page - 1) * limit`.
 
 - [ ] taskService.js: getPaginated silently returns wrong results for invalid page/limit.
   - Why: no validation on page/limit - negative or zero values produce a negative offset, which Array.slice() interprets from the end, silently returning empty or wrong results instead of an error.
