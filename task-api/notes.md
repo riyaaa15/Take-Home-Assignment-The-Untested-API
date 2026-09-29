@@ -29,5 +29,9 @@
 ## What surprised me
 -
 
+## Design decisions
+- assign endpoint: chose to return 400 if assignee is empty/missing, since assigning to nobody doesn't make sense.
+- assign endpoint: allowed reassigning an already-assigned task (new assignee simply overwrites the old one) rather than blocking it, since the assignment brief didn't require blocking reassignment.
+
 ## If I had more time
 -
